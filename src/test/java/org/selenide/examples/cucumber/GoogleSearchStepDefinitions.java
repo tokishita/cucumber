@@ -20,7 +20,7 @@ public class GoogleSearchStepDefinitions {
   @Given("an open browser with google.com")
   public void openGoogleSearch() {
     Configuration.reportsFolder = "target/surefire-reports";
-    Configuration.headless = false;
+    Configuration.headless = true;
     open("https://google.com/ncr");
     sleep(500);
     if ($(byText("I agree")).isDisplayed()) {
