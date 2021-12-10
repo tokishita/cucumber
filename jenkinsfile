@@ -1,0 +1,22 @@
+jenkinsPipelineStrategy:
+        jenkinsfile: |-
+          def mvnCmd = "mvn"
+          pipeline {
+            agent {
+              label 'maven-with-webdriver'
+            }
+            stages {
+              stage('Build App') {
+                steps {
+                  git branch: 'master', url: '${TEST_CODE_URL}'
+                  sh "${mvnCmd} install -DskipTests=true"
+                }
+              }
+              stage('Test') {
+                steps {
+                  sh "${mvnCmd} test"
+                  step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
+                }
+              }
+            }
+          }
